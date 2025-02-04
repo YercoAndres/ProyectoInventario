@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 
 export default function Login() {
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
 
     
@@ -31,6 +34,9 @@ export default function Login() {
 
         if(response.ok){
             toast.success(data.message)
+            setTimeout(() => {
+                navigate('/'); // Aca cambiar la ruta a pagina principal del inventario
+              }, 1000)
         } else{
             toast.error(data.message)
         }
