@@ -3,9 +3,9 @@ import bcrypt from 'bcryptjs';
 
 
 export const register = (req, res) => {
-    const {username, password } = req.body;
+    const {username, email,  password } = req.body;
 
-    user.create({username, password}, (err, result) => {
+    user.create({username, email, password}, (err, result) => {
         if(err) {
             res.status(500).json({message: 'Error al registar usuario'})
             

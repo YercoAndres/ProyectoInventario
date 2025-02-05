@@ -48,7 +48,7 @@ export default function Login() {
   return (
     <div className='flex items-center justify-center min-h-screen w-full'>
 
-        <div className='w-full max-w-md mx-auto'>
+        <div className='w-full max-w-lg mx-auto p-3'>
         <form onSubmit={handleLogin} className='bg-slate-50 shadow-2xl rounded-xl px-8 md:px-14 py-10 mb-8'>
         <h2 className="text-2xl font-bold text-center mb-6 text-slate-900">Inicio de Sesión</h2>
         <div className='mb-4'>

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function Register() {
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [showPass, setShowPass] = useState('')
 
     // Funcion para validar la contraseña que sea regex 
     const validarContrasena = (contrasena) => {
@@ -22,7 +25,7 @@ export default function Register() {
           return;
         }
 
-        if(!username || !password || !passwordRepeat){
+        if(!username || !email || !password || !passwordRepeat){
             toast.error('Todos los campos son obligatorios');
             return;
         }
@@ -38,7 +41,7 @@ export default function Register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({username, email, password}),
         });
 
         const data = await response.json();
@@ -53,15 +56,22 @@ export default function Register() {
     }
 
 
+ 
+
   return (
     <>
-    <div className='flex items-center justify-center min-h-screen w-full'>
-      <div className='w-full max-w-md mx-auto'>
+    <div className='flex items-center justify-center min-h-screen w-full '>
+      <div className='w-full max-w-lg mx-auto p-3'>
+
+        {/*  Empezando el formulario */}
+
         <form onSubmit={handleRegister}
         className='bg-slate-50 shadow-2xl rounded-xl px-8 md:px-14 py-10 mb-8'
         >
         <h2 className='text-2xl font-bold text-center mb-6'>Registrate</h2>
-        <div className='mb-4'>
+
+         {/* input del usuario */}
+        <div className='mb-3'>
         <label htmlFor="username"
         className='block text-slate-900 text-sm font-bold mb-2'
         >Usuario:</label>
@@ -72,14 +82,30 @@ export default function Register() {
         text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-1 focus:ring-black
         '
         />
-
         </div>
 
-        <div className='mb-4'>
+           {/* input del email */}
+
+        <div className='mb-3'>
+        <label htmlFor="email"
+        className='block text-slate-900 text-sm font-bold mb-2'
+        >Correo:
+        </label>
+        <input type="email" placeholder='Ingresa tu correo'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)} // capturar lo que el usuario escribe
+        className='shadow-md appearance-none border border-gray-300 rounded-lg w-full py-2 px-3
+        text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-1 focus:ring-black'
+        />
+        </div>
+
+          {/* input del password */}
+
+        <div className='mb-3'>
         <label htmlFor="password"
         className='block text-slate-900 text-sm font-bold mb-2'
         >Contraseña:</label>
-        <input type="password" placeholder='Ingresa tu contraseña'
+        <input type={showPass ? 'text' : 'password'} placeholder='Ingresa tu contraseña'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className='shadow-md appearance-none border border-gray-300 rounded-lg w-full py-2 px-3
@@ -87,16 +113,28 @@ export default function Register() {
         /> 
         </div>
 
-        <div className='mb-4'>
+          {/*  input del password repeat */}
+        
+        <div className='mb-3'>
         <label htmlFor="passworRepeat"
         className='block text-slate-900 text-sm font-bold mb-2'
         >Repite tu contraseña:</label>
-        <input type="password" placeholder='Repite tu contraseña'
+        <input type={showPass ? 'text' : 'password'} placeholder='Repite tu contraseña'
         value={passwordRepeat}
         onChange={(e) => setPasswordRepeat(e.target.value)}
         className='shadow-md appearance-none border border-gray-300 rounded-lg w-full py-2 px-3
         text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-1 focus:ring-black'
         />
+
+         {/* Aca lo que estamos haciendo es que cuando password y passwordRepeat tengan algo escrito se muestre el span, que contiene un funcion onClick para mostrar o ocultar la contraseña */}
+
+        {password && passwordRepeat && (
+                 <span onClick={() => setShowPass (!showPass)} className='flex gap-3  mt-3 cursor-pointer  text-gray-600 hover:text-teal-700 '>
+
+                 {showPass ? <Eye/> : <EyeOff/>} Mostrar contraseña
+                </span>
+              )}
+       
         </div>
 
         <div className='flex items-center justify-center'>
