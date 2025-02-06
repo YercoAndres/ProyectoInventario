@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { Eye, EyeOff } from 'lucide-react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
 
@@ -8,8 +9,10 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
-    const [showPass, setShowPass] = useState('')
+    const [showPass, setShowPass] = useState('');
+    const navigate = useNavigate();
 
+    
     // Funcion para validar la contraseña que sea regex 
     const validarContrasena = (contrasena) => {
       const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -20,14 +23,15 @@ export default function Register() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (!validarContrasena(password)) {
-          toast.error('La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.');
-          return;
-        }
 
         if(!username || !email || !password || !passwordRepeat){
             toast.error('Todos los campos son obligatorios');
             return;
+        }
+ 
+        if (!validarContrasena(password)) {
+          toast.error('La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.');
+          return;
         }
 
         if(password !== passwordRepeat){
@@ -48,11 +52,12 @@ export default function Register() {
 
         if(response.ok){
             toast.success(data.message);
+            setTimeout(() => {
+              navigate('/login'); 
+            }, 2000)
         } else{
           toast.error(data.message)
         }
-
-
     }
 
 
@@ -129,24 +134,19 @@ export default function Register() {
          {/* Aca lo que estamos haciendo es que cuando password y passwordRepeat tengan algo escrito se muestre el span, que contiene un funcion onClick para mostrar o ocultar la contraseña */}
 
         {password && passwordRepeat && (
-                 <span onClick={() => setShowPass (!showPass)} className='flex gap-3  mt-3 cursor-pointer  text-gray-600 hover:text-teal-700 '>
+                 <span onClick={() => setShowPass (!showPass)} className='flex gap-1 mt-3 cursor-pointer text-xs text-gray-600 hover:text-teal-700 '>
 
-                 {showPass ? <Eye/> : <EyeOff/>} Mostrar contraseña
+                 {showPass ? <EyeOff height={18}/> : <Eye height={18}/>  }  {showPass ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 </span>
               )}
        
         </div>
-
         <div className='flex items-center justify-center'>
           <button type='submit' className='bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline'>Registrar</button>
         </div>
-
         </form>
       </div>
-
-    </div>
-    
-    
+    </div>    
     </>
   )
 }
