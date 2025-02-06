@@ -3,6 +3,7 @@ import MainPage from './pages/MainPage'
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import { ToastContainer } from 'react-toastify';
+import Dashboard from './pages/Dashboard';
 
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
       <Route path='/' element={<MainPage/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+      </Routes>
+      <Routes>
+        <Route path='/dashboard' element={<Dashboard/>}/>
       </Routes>
     </Router>
     <ToastContainer
