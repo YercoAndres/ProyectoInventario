@@ -71,6 +71,12 @@ export default function Login() {
         </div>
         </form>
         <div className='text-center'>
+            <div>
+            <p>¿No tienes cuenta?</p>
+            <a href="/register" className='font-bold text-emerald-800 hover:text-emerald-500'>Registrate acá</a>
+
+            </div>
+          
             <a
             className='hover:text-blue-600'
             href="/">Regresar a inicio</a>
